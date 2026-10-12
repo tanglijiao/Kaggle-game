@@ -171,11 +171,13 @@ def main() -> None:
     dl_va = DataLoader(SegDS(va, False), batch_size=args.bs, shuffle=False, num_workers=2)
 
     model = build_model(args.arch, args.encoder, pretrained=True).to(device)
+    net = nn.DataParallel(model) if torch.cuda.device_count() > 1 else model
+    print("gpus:", torch.cuda.device_count(), flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     steps = args.epochs * len(dl_tr)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: min(1.0, (s + 1) / 200) * 0.5 * (1 + math.cos(math.pi * min(1.0, s / steps))))
-    scaler = torch.cuda.amp.GradScaler(enabled=device.type == "cuda")
+    scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda")
     pos_w = torch.tensor(min(20.0, 0.1 / max(pos, 1e-4)) if args.task == "fasc" else 1.0, device=device)
 
     out = Path(args.out)
@@ -188,7 +190,7 @@ def main() -> None:
         for x, y in dl_tr:
             x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
             with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=device.type == "cuda"):
-                lg = model(x)
+                lg = net(x)
             lg = lg.float()
             loss = F.binary_cross_entropy_with_logits(lg, y, pos_weight=pos_w) + dice_loss(lg, y)
             opt.zero_grad(set_to_none=True)
@@ -197,7 +199,7 @@ def main() -> None:
             scaler.update()
             sched.step()
             tot += loss.item()
-        m = evaluate(model, dl_va, device)
+        m = evaluate(net, dl_va, device)
         row = {"epoch": ep + 1, "loss": tot / len(dl_tr), **m, "sec": time.time() - t0}
         log.append(row)
         print(json.dumps({k: round(v, 4) if isinstance(v, float) else v for k, v in row.items()}), flush=True)

@@ -1,7 +1,7 @@
 # Paste into a Kaggle notebook cell (Internet ON, GPU optional, competition data attached).
 # Edit REPO / BRANCH / CMD; everything else lives in the repository.
 import subprocess, sys, os
-REPO = "https://github.com/tanglijiao/umud-challenge.git"
+REPO = "https://github.com/tanglijiao/Kaggle-game.git"
 BRANCH = "main"
 CMD = "python scripts/00_explore.py --out /kaggle/working/explore"
 

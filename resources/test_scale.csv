@@ -1,0 +1,310 @@
+image_id,device,px_per_mm,period_px,mm_per_period,n_ticks,ok,note,height,width
+IMG_00001.tif,siemens,13.55,135.5,10.0,5,True,5 long / 9 ticks,800,1200
+IMG_00002.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00003.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00004.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00005.tif,siemens,10.1438,101.438,10.0,6,True,6 long / 12 ticks,800,1200
+IMG_00006.tif,siemens,10.1438,101.438,10.0,6,True,6 long / 12 ticks,800,1200
+IMG_00007.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00008.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00009.tif,siemens,15.9667,159.667,10.0,4,True,4 long / 7 ticks,800,1200
+IMG_00010.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00011.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00012.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00013.tif,siemens,8.7,87.0,10.0,7,True,7 long / 14 ticks,800,1200
+IMG_00014.tif,siemens,11.08,110.8,10.0,6,True,6 long / 11 ticks,800,1200
+IMG_00015.tif,siemens,10.1562,101.562,10.0,6,True,6 long / 12 ticks,800,1200
+IMG_00016.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00017.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00018.tif,siemens,9.3625,93.625,10.0,6,True,6 long / 13 ticks,800,1200
+IMG_00019.tif,siemens,9.3625,93.625,10.0,6,True,6 long / 13 ticks,800,1200
+IMG_00020.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00021.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00022.tif,siemens,12.18,121.8,10.0,6,True,6 long / 10 ticks,800,1200
+IMG_00023.tif,siemens,12.18,121.8,10.0,6,True,6 long / 10 ticks,800,1200
+IMG_00024.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00025.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00026.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00027.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00028.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00029.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00030.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00031.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00032.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00033.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00034.tif,siemens,12.1786,121.786,10.0,5,True,5 long / 10 ticks,800,1200
+IMG_00035.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00036.tif,cropped,16.6769,166.769,10.0,4,True,4/5 grid ticks @y=847,853,1069
+IMG_00037.tif,cropped,16.6743,166.743,10.0,6,True,6/6 grid ticks @y=850,853,959
+IMG_00038.tif,cropped,16.6743,166.743,10.0,6,True,6/7 grid ticks @y=847,853,1069
+IMG_00039.tif,cropped,16.6743,166.743,10.0,6,True,6/7 grid ticks @y=849,853,1069
+IMG_00040.tif,cropped,7.7543,77.543,10.0,6,True,6/6 grid ticks @y=510,513,465
+IMG_00041.tif,cropped,7.7543,77.543,10.0,6,True,6/6 grid ticks @y=510,513,461
+IMG_00042.tif,cropped,7.75,77.5,10.0,5,True,5/6 grid ticks @y=509,512,465
+IMG_00043.tif,cropped,7.7543,77.543,10.0,6,True,6/6 grid ticks @y=510,513,463
+IMG_00044.tif,cropped,7.7581,77.581,10.0,5,True,5/6 grid ticks @y=508,513,464
+IMG_00045.tif,cropped,7.7543,77.543,10.0,6,True,6/7 grid ticks @y=508,513,465
+IMG_00046.tif,cropped,7.7581,77.581,10.0,5,True,5/6 grid ticks @y=509,512,465
+IMG_00047.tif,cropped,16.6756,166.756,10.0,5,True,5/6 grid ticks @y=849,853,1069
+IMG_00048.tif,cropped,7.7581,77.581,10.0,5,True,5/6 grid ticks @y=508,513,466
+IMG_00049.tif,cropped,16.6743,166.743,10.0,6,True,6/7 grid ticks @y=850,853,1069
+IMG_00050.tif,cropped,16.6743,166.743,10.0,6,True,6/7 grid ticks @y=849,853,1069
+IMG_00051.tif,cropped,16.6743,166.743,10.0,6,True,6/7 grid ticks @y=850,853,1069
+IMG_00052.tif,cropped,16.6743,166.743,10.0,6,True,6/6 grid ticks @y=850,853,1069
+IMG_00053.tif,cropped,16.6743,166.743,10.0,6,True,6/7 grid ticks @y=850,853,1069
+IMG_00054.tif,cropped,16.6743,166.743,10.0,6,True,6/11 grid ticks @y=847,853,1069
+IMG_00055.tif,cropped,16.6743,166.743,10.0,6,True,6/7 grid ticks @y=847,853,1069
+IMG_00056.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00057.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00058.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00059.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00060.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00061.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00062.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00063.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00064.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00065.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00066.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00067.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00068.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00069.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00070.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00071.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00072.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00073.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00074.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00075.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00076.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00077.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00078.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00079.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00080.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00081.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00082.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00083.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00084.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00085.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00086.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00087.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00088.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00089.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00090.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00091.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00092.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00093.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00094.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00095.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00096.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00097.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00098.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00099.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00100.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00101.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00102.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00103.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00104.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00105.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00106.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00107.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00108.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00109.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00110.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00111.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00112.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00113.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00114.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00115.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00116.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00117.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00118.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00119.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00120.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00121.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00122.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00123.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00124.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00125.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00126.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00127.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00128.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00129.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00130.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00131.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00132.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00133.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00134.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00135.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00136.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00137.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00138.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00139.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00140.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00141.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00142.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00143.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00144.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00145.tif,tel1088,12.61,126.1,10.0,7,True,7 ticks,644,1088
+IMG_00146.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00147.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00148.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00149.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00150.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00151.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00152.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00153.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00154.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00155.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00156.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00157.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00158.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00159.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00160.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00161.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00162.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00163.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00164.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00165.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00166.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00167.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00168.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00169.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00170.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00171.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00172.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00173.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00174.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00175.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00176.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00177.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00178.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00179.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00180.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00181.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00182.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00183.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00184.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00185.tif,telemed,14.8,148.0,10.0,7,True,7 ticks,800,1200
+IMG_00186.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00187.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00188.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00189.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00190.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00191.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00192.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00193.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00194.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00195.tif,telemed,14.82,148.2,10.0,7,True,7 ticks,800,1200
+IMG_00196.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00197.tif,siemens,12.1857,121.857,10.0,5,True,5 long / 10 ticks,800,1200
+IMG_00198.tif,siemens,15.9667,159.667,10.0,4,True,4 long / 16 ticks,800,1200
+IMG_00199.tif,siemens,15.9667,159.667,10.0,4,True,4 long / 16 ticks,800,1200
+IMG_00200.tif,siemens,15.9667,159.667,10.0,4,True,4 long / 16 ticks,800,1200
+IMG_00201.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00202.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00203.tif,siemens,15.2333,152.333,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00204.tif,siemens,15.2333,152.333,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00205.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00206.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00207.tif,siemens,15.2333,152.333,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00208.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00209.tif,siemens,15.2167,152.167,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00210.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00211.tif,siemens,12.1857,121.857,10.0,5,True,5 long / 10 ticks,800,1200
+IMG_00212.tif,siemens,12.1857,121.857,10.0,5,True,5 long / 10 ticks,800,1200
+IMG_00213.tif,siemens,12.1857,121.857,10.0,5,True,5 long / 10 ticks,800,1200
+IMG_00214.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00215.tif,siemens,13.5667,135.667,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00216.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00217.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00218.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00219.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00220.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00221.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00222.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00223.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00224.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00225.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00226.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00227.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00228.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00229.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00230.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00231.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00232.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00233.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00234.tif,siemens,15.95,159.5,10.0,3,True,3 long / 7 ticks,800,1200
+IMG_00235.tif,siemens,15.95,159.5,10.0,3,True,3 long / 7 ticks,800,1200
+IMG_00236.tif,siemens,13.5583,135.583,10.0,4,True,4 long / 9 ticks,800,1200
+IMG_00237.tif,siemens,12.1857,121.857,10.0,5,True,5 long / 10 ticks,800,1200
+IMG_00238.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00239.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00240.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00241.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00242.tif,siemens,12.1786,121.786,10.0,5,True,5 long / 10 ticks,800,1200
+IMG_00243.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00244.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00245.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00246.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00247.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00248.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00249.tif,siemens,15.225,152.25,10.0,5,True,5 long / 8 ticks,800,1200
+IMG_00250.tif,siemens,15.225,152.25,10.0,4,True,4 long / 8 ticks,800,1200
+IMG_00251.tif,siemens,15.95,159.5,10.0,3,True,3 long / 15 ticks,800,1200
+IMG_00252.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00253.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00254.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00255.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00256.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00257.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00258.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00259.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00260.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00261.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00262.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00263.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00264.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00265.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00266.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00267.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00268.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00269.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00270.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00271.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00272.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00273.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00274.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00275.png,lumify,10.0667,100.667,10.0,4,True,"4 ticks, depth text=60",800,1200
+IMG_00276.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00277.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00278.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00279.png,lumify,20.15,100.75,5.0,4,True,"4 ticks, depth text=30",800,1200
+IMG_00280.png,lumify,20.15,100.75,5.0,4,True,"4 ticks, depth text=30",800,1200
+IMG_00281.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00282.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00283.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00284.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00285.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00286.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00287.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00288.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00289.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00290.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00291.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00292.png,lumify,13.4,67.0,5.0,6,True,"6 ticks, depth text=45",800,1200
+IMG_00293.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00294.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00295.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00296.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00297.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00298.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00299.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00300.png,lumify,15.075,75.375,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00301.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00302.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00303.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00304.png,lumify,12.075,60.375,5.0,7,True,"7 ticks, depth text=50",800,1200
+IMG_00305.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00306.png,lumify,17.2429,86.214,5.0,5,True,"5 ticks, depth text=35",800,1200
+IMG_00307.png,lumify,15.4,77.0,5.0,6,True,"6 ticks, depth text=50",800,1200
+IMG_00308.png,lumify,15.1,75.5,5.0,6,True,"6 ticks, depth text=40",800,1200
+IMG_00309.png,lumify,20.15,100.75,5.0,4,True,"4 ticks, depth text=30",800,1200

@@ -27,3 +27,26 @@ Key observations
 Open questions / next
 - Inspect test images at full resolution for ruler type per device (1200x800 vs 1088x644 vs 1069x853 vs small ~465x512).
 - Confirm `image_id` format against sample_submission.csv.
+
+## 2026-10-12 — Stage 1 scale calibration (scripts/01_scale.py → resources/test_scale.csv)
+
+**Submission format** (sample_submission.csv): `;`-separated, `image_id` *includes the extension*
+(`IMG_00001.tif`, `IMG_00252.png`). The two example rows are made-up values (host, discussion 743111).
+
+Test images fall into five screen layouts; all 309 calibrated, every one checked visually (ticks + fitted 1 cm grid).
+
+| device | ids | n | ruler | rule | px/mm |
+|---|---|---|---|---|---|
+| Siemens Acuson Juniper | 1-35, 196-251 (.tif, 1200x800 black) | 91 | right, x~1146-1156 | long ticks = 1 cm (short ticks 2 or 5 mm depending on depth) | 8.70-15.97 (depth 3-7 cm) |
+| Philips Lumify | 252-309 (.png, 1200x800 black) | 58 | far left, x~5-10 | 5 mm ticks up to 5 cm depth, **10 mm at 6 cm** (depth read from the "Tiefe" text) | 10.07-20.15 |
+| Telemed (1200x800 grey UI) | 66-105, 146-195 | 90 | left line x~66, ticks right of it | 10 mm ticks, depth always 50 mm | 14.80-14.82 |
+| Telemed (1088x644) | 56-65, 106-145 | 50 | x~1-8 | 10 mm ticks, depth 50 mm | 12.61 |
+| Cropped legacy images | 36-55 (1069x853, 959x853, ~465x513) | 20 | bottom edge | 1 cm ticks (host: assume 1 cm) | 16.67 / 7.75 |
+
+Checks
+- Siemens: depth text x px/mm = 609 px for all depths 4-7 cm (constant image height); 3 / 3.5 cm smaller field.
+- Lumify: matches the "Tiefe" read-out for all 6 depths (30-60 mm). IMG_00307 is a 5 cm image whose
+  screenshot is cut at ~4 cm, so depth-text/height would be wrong there; the tick spacing (15.4 px/mm) is right.
+- Grid fitting (RANSAC + missing-tick penalty) rejects bright-tissue false ticks on the cropped images.
+- Horizontal Telemed ticks are 13.4 px/mm vs 14.8 vertical (non-square display); host measured with the vertical
+  scale only, so we use the vertical value everywhere.

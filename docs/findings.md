@@ -50,3 +50,13 @@ Checks
 - Grid fitting (RANSAC + missing-tick penalty) rejects bright-tissue false ticks on the cropped images.
 - Horizontal Telemed ticks are 13.4 px/mm vs 14.8 vertical (non-square display); host measured with the vertical
   scale only, so we use the vertical value everywhere.
+
+## 2026-10-13 — v1 baseline run (Kaggle commit, GPU T4 x2, ~57 min, code @31f3ea7)
+
+- Aponeurosis U-Net (resnet34, 512x768): 903 train / 125 val after de-dup, best val Dice **0.843** (epoch 24/30, plateau from ~epoch 16).
+- Fascicle U-Net: 1799 train / 247 val (715 duplicates dropped), best val Dice **0.414** (prec 0.30 / rec 0.67 — pos_weight pushes recall).
+- Geometry on all 309 test images; NaN filled by median: PA/FL 5 images, MT 2 images.
+- Median per device (PA deg / FL mm / MT mm / n fascicles):
+  cropped 17.7/66.6/18.2/22 · lumify 21.8/65.2/20.6/15 · siemens 15.1/89.1/21.9/24 · tel1088 10.0/114.5/27.1/17 · telemed 10.1/92.9/23.7/11
+- Not submitted yet (user decision). Open concerns: Telemed PA ~10 deg looks low; FL depends on extrapolation limit;
+  output upload was slow (prob maps + models + repo copied into /kaggle/working) — keep outputs lean next time.

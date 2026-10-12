@@ -124,7 +124,9 @@ def main() -> None:
         files = sorted(p for p in d.rglob("*") if p.is_file())
         exts = Counter(p.suffix.lower() for p in files)
         print(f"{prefix:12s} -> {d.name}: {len(files)} files {dict(exts)}")
-        for p in files:
+        for k, p in enumerate(files):
+            if k % 500 == 0:
+                print(f"  {prefix}: {k}/{len(files)}", flush=True)
             if p.suffix.lower() not in IMG_EXT:
                 continue
             row = {"split": prefix, "folder": d.name, "rel": str(p.relative_to(d)), "stem": p.stem,

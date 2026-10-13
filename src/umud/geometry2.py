@@ -1,0 +1,219 @@
+"""Geometry v2: dominant fascicle orientation from a structure tensor instead of individual fragments.
+
+Idea: experts draw ~3 straight fascicle lines and extrapolate them to both aponeuroses. With (almost)
+straight fascicles, all of them share one orientation, so a robust *field* estimate of that orientation
+inside the muscle (structure tensor of the fascicle-probability map, or of the image itself) is less
+noisy than intersecting individual short fragments. FL is then the length of a straight line with that
+orientation through the muscle at a few positions, PA its angle to the deep aponeurosis tangent there.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+import cv2
+import numpy as np
+
+from .geometry import Apo, Fascicle, _intersect, find_aponeuroses, pick_sup_deep
+
+
+@dataclass
+class Result2:
+    pa_deg: float = float("nan")
+    fl_px: float = float("nan")
+    mt_px: float = float("nan")
+    angle_deg: float = float("nan")      # fascicle orientation in image coords (deg, y down)
+    coherence: float = float("nan")
+    sup: Apo | None = None
+    deep: Apo | None = None
+    lines: list = field(default_factory=list)   # [(p_sup, p_deep)]
+    note: str = ""
+
+
+def structure_orientation(img: np.ndarray, weight: np.ndarray, sigma_grad: float = 1.5, sigma_int: float = 6.0):
+    """Weighted dominant line orientation (deg in [-90, 90), image coords) and its coherence.
+
+    Uses the doubled-angle representation so opposite directions agree."""
+    f = cv2.GaussianBlur(img.astype(np.float32), (0, 0), sigma_grad)
+    gx = cv2.Sobel(f, cv2.CV_32F, 1, 0, ksize=3)
+    gy = cv2.Sobel(f, cv2.CV_32F, 0, 1, ksize=3)
+    jxx = cv2.GaussianBlur(gx * gx, (0, 0), sigma_int)
+    jyy = cv2.GaussianBlur(gy * gy, (0, 0), sigma_int)
+    jxy = cv2.GaussianBlur(gx * gy, (0, 0), sigma_int)
+    # gradient orientation (doubled) ; line orientation = gradient + 90 deg
+    c2 = (jxx - jyy)
+    s2 = 2 * jxy
+    energy = jxx + jyy
+    coh = np.sqrt(c2 ** 2 + s2 ** 2) / (energy + 1e-6)
+    w = weight * coh * np.sqrt(energy)
+    C = float((w * c2 / (np.sqrt(c2 ** 2 + s2 ** 2) + 1e-6)).sum())
+    S = float((w * s2 / (np.sqrt(c2 ** 2 + s2 ** 2) + 1e-6)).sum())
+    grad_ang = 0.5 * np.degrees(np.arctan2(S, C))
+    line_ang = grad_ang + 90.0
+    if line_ang >= 90:
+        line_ang -= 180
+    mean_coh = float((w * coh).sum() / (w.sum() + 1e-9))
+    return float(line_ang), float(np.hypot(C, S) / (w.sum() + 1e-9)), mean_coh
+
+
+def angle_histogram_mode(img, weight, sigma_grad=1.5, sigma_int=6.0, lo=-60, hi=60, bin_deg=0.5, smooth=2.0):
+    """Mode of the weighted local orientation histogram (robust to a second structure, e.g. a vessel)."""
+    f = cv2.GaussianBlur(img.astype(np.float32), (0, 0), sigma_grad)
+    gx = cv2.Sobel(f, cv2.CV_32F, 1, 0, ksize=3)
+    gy = cv2.Sobel(f, cv2.CV_32F, 0, 1, ksize=3)
+    jxx = cv2.GaussianBlur(gx * gx, (0, 0), sigma_int)
+    jyy = cv2.GaussianBlur(gy * gy, (0, 0), sigma_int)
+    jxy = cv2.GaussianBlur(gx * gy, (0, 0), sigma_int)
+    c2, s2, energy = jxx - jyy, 2 * jxy, jxx + jyy
+    coh = np.sqrt(c2 ** 2 + s2 ** 2) / (energy + 1e-6)
+    ang = 0.5 * np.degrees(np.arctan2(s2, c2)) + 90.0
+    ang = np.where(ang >= 90, ang - 180, ang)
+    w = (weight * coh * np.sqrt(energy)).ravel()
+    a = ang.ravel()
+    m = (w > 0) & (a >= lo) & (a < hi)
+    bins = np.arange(lo, hi + bin_deg, bin_deg)
+    h, _ = np.histogram(a[m], bins=bins, weights=w[m])
+    if h.sum() <= 0:
+        return float("nan"), 0.0
+    k = int(np.ceil(3 * smooth / bin_deg))
+    g = np.exp(-0.5 * (np.arange(-k, k + 1) * bin_deg / smooth) ** 2)
+    hs = np.convolve(h, g / g.sum(), mode="same")
+    i = int(hs.argmax())
+    # parabolic refinement
+    if 0 < i < len(hs) - 1:
+        d = (hs[i - 1] - hs[i + 1]) / (2 * (hs[i - 1] - 2 * hs[i] + hs[i + 1]) + 1e-12)
+    else:
+        d = 0.0
+    centre = bins[i] + bin_deg / 2 + d * bin_deg
+    return float(centre), float(hs[i] / hs.sum())
+
+
+def band_edges(apo_mask: np.ndarray, a: Apo, x: float, which: str) -> float:
+    """Inner edge of an aponeurosis band at column x: 'lower' edge for the superficial, 'upper' for the deep."""
+    h = apo_mask.shape[0]
+    xi = int(np.clip(round(x), 0, apo_mask.shape[1] - 1))
+    yc = int(np.clip(round(a.y(x)), 0, h - 1))
+    col = apo_mask[:, xi]
+    if not col[yc]:
+        # nearest mask pixel within 6 px
+        near = np.nonzero(col[max(0, yc - 6): yc + 7])[0]
+        if near.size == 0:
+            return float(a.y(x))
+        yc = max(0, yc - 6) + int(near[np.argmin(np.abs(near - 6))])
+    y = yc
+    if which == "lower":
+        while y + 1 < h and col[y + 1]:
+            y += 1
+    else:
+        while y - 1 >= 0 and col[y - 1]:
+            y -= 1
+    return float(y)
+
+
+def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | None = None, *,
+             apo_thr: float = 0.5, source: str = "fasc", estimator: str = "mean", region: str = "all",
+             margin: float = 0.1, positions=(0.25, 0.5, 0.75), mt_mode: str = "center",
+             sigma_int: float = 6.0, pa_range=(2.0, 60.0)) -> Result2:
+    """source: 'fasc' (orientation of the fascicle-probability map), 'img' (grey image weighted by
+    fascicle probability), 'img_raw' (grey image only).  region: 'all' | 'deep_half' | 'mid'."""
+    h, w = apo_prob.shape
+    r = Result2()
+    apos = find_aponeuroses(apo_prob, apo_thr)
+    sup, deep = pick_sup_deep(apos, h)
+    r.sup, r.deep = sup, deep
+    if sup is None or deep is None:
+        r.note = f"aponeuroses: {len(apos)}"
+        return r
+    x_lo, x_hi = max(sup.x0, deep.x0), min(sup.x1, deep.x1)
+    if x_hi - x_lo < 0.2 * w:
+        x_lo, x_hi = 0.2 * w, 0.8 * w
+
+    # ---- MT
+    apo_mask = apo_prob > apo_thr
+    mts = []
+    for t in positions:
+        x = x_lo + t * (x_hi - x_lo)
+        if mt_mode == "inner":
+            ys, yd = band_edges(apo_mask, sup, x, "lower"), band_edges(apo_mask, deep, x, "upper")
+        else:
+            ys, yd = sup.y(x), deep.y(x)
+        s = sup.slope(x)
+        mts.append(abs(yd - ys) / np.hypot(s, 1.0))
+    r.mt_px = float(np.mean(mts))
+
+    # ---- muscle region mask
+    xs = np.arange(w)
+    ysup, ydeep = sup.y(xs), deep.y(xs)
+    thick = np.maximum(ydeep - ysup, 1)
+    yy = np.arange(h)[:, None]
+    top = ysup + margin * thick
+    bot = ydeep - margin * thick
+    if region == "deep_half":
+        top = ysup + 0.5 * thick
+    elif region == "mid":
+        top, bot = ysup + 0.25 * thick, ydeep - 0.25 * thick
+    reg = (yy > top[None, :]) & (yy < bot[None, :])
+    reg &= (xs[None, :] >= x_lo) & (xs[None, :] <= x_hi)
+    if reg.sum() < 500:
+        r.note = "tiny region"
+        return r
+
+    if source == "fasc":
+        src, wgt = fasc_prob, reg.astype(np.float32)
+    elif source == "img":
+        src, wgt = gray, reg * np.clip(fasc_prob, 0, 1)
+    else:
+        src, wgt = gray, reg.astype(np.float32)
+    if estimator == "mode":
+        ang, coh = angle_histogram_mode(src, wgt, sigma_int=sigma_int)
+    else:
+        ang, _, coh = structure_orientation(src, wgt, sigma_int=sigma_int)
+    r.angle_deg, r.coherence = ang, coh
+    if not np.isfinite(ang):
+        r.note = "no orientation"
+        return r
+    d = np.array([np.cos(np.radians(ang)), np.sin(np.radians(ang))])
+    if d[0] < 0:
+        d = -d
+
+    pas, fls = [], []
+    lo, hi = -3.0 * w, 4.0 * w
+    for t in positions:
+        x0 = x_lo + t * (x_hi - x_lo)
+        y0 = 0.5 * (sup.y(x0) + deep.y(x0))
+        f = Fascicle(np.array([x0, y0]), d, 0.0, 1.0)
+        xsup = _intersect(f, sup, lo, hi)
+        xdeep = _intersect(f, deep, lo, hi)
+        if xsup is None or xdeep is None:
+            continue
+        ps = np.array([xsup, sup.y(xsup)])
+        pd_ = np.array([xdeep, deep.y(xdeep)])
+        tang = np.array([1.0, deep.slope(xdeep)])
+        tang /= np.linalg.norm(tang)
+        pa = float(np.degrees(np.arccos(min(1.0, abs(d @ tang)))))
+        pas.append(pa)
+        fls.append(float(np.linalg.norm(ps - pd_)))
+        r.lines.append((ps, pd_))
+    if not pas:
+        r.note = "no intersections"
+        return r
+    r.pa_deg = float(np.mean(pas))
+    r.fl_px = float(np.mean(fls))
+    if not pa_range[0] <= r.pa_deg <= pa_range[1]:
+        r.note = f"pa out of range {r.pa_deg:.1f}"
+    return r
+
+
+def draw2(img: np.ndarray, r: Result2, px_per_mm: float | None = None) -> np.ndarray:
+    out = img.copy() if img.ndim == 3 else cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    h, w = out.shape[:2]
+    xs = np.arange(0, w)
+    for a, col in ((r.sup, (0, 255, 255)), (r.deep, (255, 0, 255))):
+        if a is not None:
+            cv2.polylines(out, [np.stack([xs, a.y(xs)], 1).astype(np.int32)], False, col, 2)
+    for ps, pd_ in r.lines:
+        cv2.line(out, tuple(int(v) for v in ps), tuple(int(v) for v in pd_), (0, 220, 0), 2)
+    s = px_per_mm or 1.0
+    u = "mm" if px_per_mm else "px"
+    cv2.putText(out, f"PA {r.pa_deg:.1f} FL {r.fl_px / s:.1f}{u} MT {r.mt_px / s:.1f}{u} coh {r.coherence:.2f}",
+                (10, h - 12), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    return out

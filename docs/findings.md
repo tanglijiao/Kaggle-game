@@ -64,3 +64,23 @@ Checks
 ## v1 leaderboard (2026-10-13)
 - Submission `umud-runner - v1-sub-comma` (U-Net r34 apo+fasc, ruler px/mm, geometry, clip smoothing 0.5): **public 0.69282**, rank ~219/405.
 - References at the time: #1 0.21437, top-10 ≤ 0.2494, #50 ≈ 0.365, DLTrack 0.3.1 benchmark 0.67944.
+
+## 2026-10-14 — Leaderboard decomposition probes (v1 base, one target replaced by a constant)
+
+| file | public |
+|---|---|
+| v1 | 0.69282 |
+| PA=0 | 1.40026 |
+| PA=90 | 4.51968 |
+| PA=180 | 9.51968 |
+| FL=300 | 6.41505 |
+
+- Score is exactly linear in the PA error: 5.000 per 90 deg → **1/18 score per degree of PA MAE** (= mean of three terms with a 6 deg tolerance, if the terms are averaged).
+- Public-subset label mean **PA = 16.9 deg**; v1 predicts 14.1 on average (Telemed devices 10.3) → strong under-estimation.
+- **v1 PA MAE = 4.19 deg → 0.233 of the 0.693**; FL+MT together 0.460. FL=0/600 and MT probes still to do.
+
+## External, expert-labelled validation data (OSF xbawc, host's UMUD repository; declared as external data)
+- `benchmark_dataset_architecture_v0.1.0`: 35 images, 7 raters + DLTrack + SMA, px/cm per image. 22/35 are near-duplicates of training images.
+  Rater-vs-others MAE: MT 0.15-0.30 mm, FL 3.8-6.3 mm, PA 1.2-1.7 deg. DLTrack: MT 1.03, FL 3.74, PA 1.45.
+- `benchmark_dataset_architecture_GM_dynamic_v0.1.0`: 168 Telemed GM frames (calf raise), 3 raters, PA deg + FL px.
+- `Young/Old_ANONYMIZED_annotated`: 249 Esaote VL images with red-line drawings only (no numbers) — not used yet.

@@ -60,3 +60,7 @@ Checks
   cropped 17.7/66.6/18.2/22 · lumify 21.8/65.2/20.6/15 · siemens 15.1/89.1/21.9/24 · tel1088 10.0/114.5/27.1/17 · telemed 10.1/92.9/23.7/11
 - Not submitted yet (user decision). Open concerns: Telemed PA ~10 deg looks low; FL depends on extrapolation limit;
   output upload was slow (prob maps + models + repo copied into /kaggle/working) — keep outputs lean next time.
+
+## v1 leaderboard (2026-10-13)
+- Submission `umud-runner - v1-sub-comma` (U-Net r34 apo+fasc, ruler px/mm, geometry, clip smoothing 0.5): **public 0.69282**, rank ~219/405.
+- References at the time: #1 0.21437, top-10 ≤ 0.2494, #50 ≈ 0.365, DLTrack 0.3.1 benchmark 0.67944.

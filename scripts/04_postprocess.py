@@ -38,7 +38,7 @@ def main() -> None:
     sub["pa_deg"] = sub["pa_deg"].clip(5, 45)
     sub["fl_mm"] = sub["fl_mm"].clip(30, 200)
     sub["mt_mm"] = sub["mt_mm"].clip(10, 50)
-    sub.round(3).to_csv(args.out, sep=";", index=False)
+    sub.round(3).to_csv(args.out, index=False)
     print(f"wrote {args.out} ({len(sub)} rows, smooth={args.smooth})")
 
 

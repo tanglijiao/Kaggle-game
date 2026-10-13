@@ -2,7 +2,7 @@
 
   python scripts/03_predict.py --apo models/apo_*.pt --fasc models/fasc_*.pt --out /kaggle/working
 
-Outputs: submission.csv (';'-separated, image_id with extension, as sample_submission.csv),
+Outputs: submission.csv (comma-separated, image_id with extension; the grader rejects ';' even though sample_submission.csv uses it),
 measurements.csv (diagnostics), pred/{apo,fasc}/*.png (probability maps, uint8),
 overlay/*.jpg and overlay_sheet_*.jpg (visual check).
 """
@@ -108,7 +108,7 @@ def main() -> None:
     sub["pa_deg"] = sub["pa_deg"].clip(5, 45)
     sub["fl_mm"] = sub["fl_mm"].clip(30, 200)
     sub["mt_mm"] = sub["mt_mm"].clip(10, 50)
-    sub.round(3).to_csv(out / "submission.csv", sep=";", index=False)
+    sub.round(3).to_csv(out / "submission.csv", index=False)  # grader expects commas (despite the ";" sample)
     print(f"submission: {len(sub)} rows, filled NaN: {bad.sum().to_dict()}")
     print(df.groupby("device")[["pa_deg", "fl_mm", "mt_mm", "n_fasc"]].median())
 

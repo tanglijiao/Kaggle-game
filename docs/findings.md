@@ -30,7 +30,7 @@ Open questions / next
 
 ## 2026-10-12 — Stage 1 scale calibration (scripts/01_scale.py → resources/test_scale.csv)
 
-**Submission format** (sample_submission.csv): `;`-separated, `image_id` *includes the extension*
+**Submission format**: COMMA-separated (grader error "ID column image_id not found" with `;`, although sample_submission.csv uses `;`), `image_id` *includes the extension*
 (`IMG_00001.tif`, `IMG_00252.png`). The two example rows are made-up values (host, discussion 743111).
 
 Test images fall into five screen layouts; all 309 calibrated, every one checked visually (ticks + fitted 1 cm grid).

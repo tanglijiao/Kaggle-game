@@ -16,6 +16,29 @@ import numpy as np
 from .geometry import Apo, Fascicle, _intersect, find_aponeuroses, pick_sup_deep
 
 
+class LinExtApo(Apo):
+    """Aponeurosis that follows its polynomial fit inside the observed span and continues along the
+    end tangent outside it (experts extrapolate aponeuroses linearly)."""
+
+    def __init__(self, a: Apo, margin: float = 0.0):
+        super().__init__(a.coef.copy(), a.x0, a.x1, a.mean_y, a.support)
+        self.lo, self.hi = a.x0 + margin, a.x1 - margin
+
+    def _poly(self, x):
+        return np.polyval(self.coef, x)
+
+    def _dpoly(self, x):
+        return np.polyval(np.polyder(self.coef), x)
+
+    def y(self, x):
+        x = np.asarray(x, dtype=float)
+        xc = np.clip(x, self.lo, self.hi)
+        return self._poly(xc) + self._dpoly(xc) * (x - xc)
+
+    def slope(self, x):
+        return self._dpoly(np.clip(np.asarray(x, dtype=float), self.lo, self.hi))
+
+
 @dataclass
 class Result2:
     pa_deg: float = float("nan")
@@ -116,10 +139,11 @@ def inner_apos(apo_mask: np.ndarray, sup: Apo, deep: Apo, x_lo: float, x_hi: flo
     ds = np.median([band_edges(apo_mask, sup, x, "lower") - sup.y(x) for x in xs])
     dd = np.median([deep.y(x) - band_edges(apo_mask, deep, x, "upper") for x in xs])
     ds, dd = max(0.0, float(ds)), max(0.0, float(dd))
-    s2 = Apo(sup.coef.copy(), sup.x0, sup.x1, sup.mean_y + ds, sup.support)
-    s2.coef[-1] += ds
-    d2 = Apo(deep.coef.copy(), deep.x0, deep.x1, deep.mean_y - dd, deep.support)
-    d2.coef[-1] -= dd
+    import copy
+    s2 = copy.deepcopy(sup)
+    s2.coef = s2.coef.copy(); s2.coef[-1] += ds; s2.mean_y += ds
+    d2 = copy.deepcopy(deep)
+    d2.coef = d2.coef.copy(); d2.coef[-1] -= dd; d2.mean_y -= dd
     return s2, d2
 
 
@@ -127,7 +151,7 @@ def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | Non
              apo_thr: float = 0.5, source: str = "fasc", estimator: str = "mean", region: str = "all",
              margin: float = 0.1, positions=(0.25, 0.5, 0.75), mt_mode: str = "center",
              sigma_int: float = 6.0, pa_range=(2.0, 60.0), inner: bool = False,
-             pa_offset: float = 0.0, pa_scale: float = 1.0) -> Result2:
+             pa_offset: float = 0.0, pa_scale: float = 1.0, linext: bool = False) -> Result2:
     """source: 'fasc' (orientation of the fascicle-probability map), 'img' (grey image weighted by
     fascicle probability), 'img_raw' (grey image only).  region: 'all' | 'deep_half' | 'mid'."""
     h, w = apo_prob.shape
@@ -138,6 +162,9 @@ def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | Non
     if sup is None or deep is None:
         r.note = f"aponeuroses: {len(apos)}"
         return r
+    if linext:
+        sup, deep = LinExtApo(sup), LinExtApo(deep)
+        r.sup, r.deep = sup, deep
     x_lo, x_hi = max(sup.x0, deep.x0), min(sup.x1, deep.x1)
     if x_hi - x_lo < 0.2 * w:
         x_lo, x_hi = 0.2 * w, 0.8 * w

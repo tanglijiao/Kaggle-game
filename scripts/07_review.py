@@ -35,13 +35,13 @@ def main():
     idx = pd.read_csv(maps / "index.csv")
     idx = idx[idx.set == args.set]
     if args.ids:
-        idx = idx[idx.stem.str.split("__").str[-1].isin(args.ids)]
+        idx = idx[idx.stem.str.split("__").str[-1].isin(args.ids) | idx.stem.isin(args.ids)]
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     imgs = {p.stem: p for p in Path(args.images).rglob("*") if p.suffix.lower() in (".tif", ".tiff", ".png")}
     tiles = []
     for stem, h, w in zip(idx.stem, idx.h, idx.w):
-        key = stem.split("__")[-1]
+        key = stem if stem in imgs else stem.split("__")[-1]
         if key not in imgs:
             continue
         color = cv2.imread(str(imgs[key]), cv2.IMREAD_COLOR)

@@ -101,3 +101,18 @@ Probe scores: FL=0 2.65147, FL=600 14.74839, MT=100 9.35013, MT=200 20.46126.
 Offline on the 35-image OSF benchmark: PA 1.89 / FL 3.14 / MT 0.28 MAE (v1 2.66 / 8.54 / 1.35; DLTrack 1.45 / 3.74 / 1.03).
 Test means: PA 14.5 (label 16.9!), FL 82.4 (label 82.3), MT 21.5 (label 20.9). Telemed PA still ~9-11 deg.
 GM calf-raise labels do not match our angle definition (corr 0.86 but much larger range) — not used for tuning.
+
+## 2026-10-14 — Third validation set + geometry v4 (offline)
+`scripts/08_anno_labels.py` turns the red expert drawings of the 249 Esaote VL images (OSF "Example Annotated",
+unseen device, older adults) into PA labels: 189 usable (expert sup/deep lines identified next to our
+segmentation, PA = angle between the deep line and the red fascicle segments ending on it).
+
+| geometry | bench PA / FL / MT | anno PA |
+|---|---|---|
+| v1 fragments | 2.66 / 8.54 / 1.35 | 4.02 |
+| v2 tensor, inner borders, PA+2 | 1.89 / 3.14 / 0.28 | 3.39 |
+| v3 + linear extrapolation of apos | 1.43 / 2.83 / 0.28 | 3.3 |
+| **v4 + straight (deg-1) aponeurosis fits, deep-half orientation, PA+1, FL line +1** | **0.92 / 3.21 / 0.26** | **1.69** |
+
+Key: experts draw aponeuroses as straight lines; quadratic fits bend at the edges and wreck PA where the
+fascicle meets the deep aponeurosis. v4 test means: PA 16.2 (label 16.9), FL 75.0 (label 82.3), MT 21.5 (label 20.9).

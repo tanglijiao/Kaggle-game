@@ -151,12 +151,13 @@ def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | Non
              apo_thr: float = 0.5, source: str = "fasc", estimator: str = "mean", region: str = "all",
              margin: float = 0.1, positions=(0.25, 0.5, 0.75), mt_mode: str = "center",
              sigma_int: float = 6.0, pa_range=(2.0, 60.0), inner: bool = False,
-             pa_offset: float = 0.0, pa_scale: float = 1.0, linext: bool = False) -> Result2:
+             pa_offset: float = 0.0, pa_scale: float = 1.0, linext: bool = False, apo_deg: int = 2,
+             fl_extra: float = 0.0) -> Result2:
     """source: 'fasc' (orientation of the fascicle-probability map), 'img' (grey image weighted by
     fascicle probability), 'img_raw' (grey image only).  region: 'all' | 'deep_half' | 'mid'."""
     h, w = apo_prob.shape
     r = Result2()
-    apos = find_aponeuroses(apo_prob, apo_thr)
+    apos = find_aponeuroses(apo_prob, apo_thr, deg=apo_deg)
     sup, deep = pick_sup_deep(apos, h)
     r.sup, r.deep = sup, deep
     if sup is None or deep is None:
@@ -220,17 +221,19 @@ def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | Non
     d = np.array([np.cos(np.radians(ang)), np.sin(np.radians(ang))])
     if d[0] < 0:
         d = -d
-    if pa_offset or pa_scale != 1.0:
-        # rotate the fascicle direction about the deep-aponeurosis direction (mid-span) so that
-        # PA_new = pa_scale * PA + pa_offset
-        xm = 0.5 * (x_lo + x_hi)
-        a_deep = np.degrees(np.arctan(deep.slope(xm)))
-        rel = ang - a_deep                      # signed fascicle angle relative to the deep apo
-        sgn = 1.0 if rel >= 0 else -1.0
-        new = a_deep + sgn * (abs(rel) * pa_scale + pa_offset)
-        d = np.array([np.cos(np.radians(new)), np.sin(np.radians(new))])
-        if d[0] < 0:
-            d = -d
+    xm = 0.5 * (x_lo + x_hi)
+    a_deep = np.degrees(np.arctan(deep.slope(xm)))
+    rel = ang - a_deep                      # signed fascicle angle relative to the deep apo
+    sgn = 1.0 if rel >= 0 else -1.0
+
+    def direction(extra: float) -> np.ndarray:
+        # rotate about the deep-aponeurosis direction so that PA_new = pa_scale * PA + pa_offset + extra
+        new = a_deep + sgn * (abs(rel) * pa_scale + pa_offset + extra)
+        dd = np.array([np.cos(np.radians(new)), np.sin(np.radians(new))])
+        return -dd if dd[0] < 0 else dd
+
+    d = direction(0.0)
+    d_fl = direction(fl_extra)
 
     pas, fls = [], []
     lo, hi = -3.0 * w, 4.0 * w
@@ -246,11 +249,16 @@ def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | Non
         pd_ = np.array([xdeep, deep.y(xdeep)])
         tang = np.array([1.0, deep.slope(xdeep)])
         tang /= np.linalg.norm(tang)
-        pa = float(np.degrees(np.arccos(min(1.0, abs(d @ tang)))))
-        pas.append(pa)
+        pas.append(float(np.degrees(np.arccos(min(1.0, abs(d @ tang))))))
+        if fl_extra:
+            f2 = Fascicle(np.array([x0, y0]), d_fl, 0.0, 1.0)
+            xs2, xd2 = _intersect(f2, sup, lo, hi), _intersect(f2, deep, lo, hi)
+            if xs2 is None or xd2 is None:
+                continue
+            ps, pd_ = np.array([xs2, sup.y(xs2)]), np.array([xd2, deep.y(xd2)])
         fls.append(float(np.linalg.norm(ps - pd_)))
         r.lines.append((ps, pd_))
-    if not pas:
+    if not pas or not fls:
         r.note = "no intersections"
         return r
     r.pa_deg = float(np.mean(pas))

@@ -116,3 +116,10 @@ segmentation, PA = angle between the deep line and the red fascicle segments end
 
 Key: experts draw aponeuroses as straight lines; quadratic fits bend at the edges and wreck PA where the
 fascicle meets the deep aponeurosis. v4 test means: PA 16.2 (label 16.9), FL 75.0 (label 82.3), MT 21.5 (label 20.9).
+
+## 2026-10-14 evening — r50 segmenters, robust pair selection, FL check on the annotated set
+- resnet50 segmenters (Kaggle v5): bench equal, **annotated (unseen device) PA 2.43 vs 1.69 for resnet34** → worse generalisation; r34+r50 average ≈ r34. Keep r34.
+- Robust aponeurosis pair selection (threshold fallback 0.5→0.3→0.15, drop a short top fragment, require fascicles between): fixes IMG_00272 (no deep apo at 0.5), IMG_00305 (fascia picked as superficial). → v5.
+- Annotated-set FL/MT in pixels (straight extrapolation from the deep contact to the expert's superficial line):
+  FL ratio ours/expert 0.90 with fl_extra=1, 0.96 with fl_extra=0; MT ratio 0.96 (inner) / 1.02 (centre).
+  Test label mean FL 82.3 vs ours 75.0 (fl_extra=1) / 79.9 (fl_extra=0) → v5b uses fl_extra=0; LB will arbitrate.

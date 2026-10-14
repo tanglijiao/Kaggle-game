@@ -130,7 +130,8 @@ def main():
             if dist(dl, deep) > 25 or dist(sl, sup) > 25 or dl is sl:
                 continue
             ddir = np.array([1.0, np.tan(np.radians(dl[2]))]); ddir /= np.linalg.norm(ddir)
-            angs, wts = [], []
+            angs, wts, fls = [], [], []
+            sdir = np.array([1.0, np.tan(np.radians(sl[2]))])
             for l in lines:
                 if l is dl or l is sl:
                     continue
@@ -140,11 +141,20 @@ def main():
                         a = float(np.degrees(np.arccos(min(1.0, abs(f @ ddir)))))
                         if 3 <= a <= 45:
                             angs.append(a); wts.append(l[3])
+                            # straight extrapolation from the deep contact point to the superficial line
+                            A = np.array([[f[0], -sdir[0]], [f[1], -sdir[1]]])
+                            try:
+                                t, _ = np.linalg.solve(A, np.array(sl[0]) - pnt)
+                                fls.append(abs(float(t)))
+                            except np.linalg.LinAlgError:
+                                pass
                         break
             if not angs:
                 continue
             rows.append({"stem": stem, "key": stem, "pa_deg": float(np.average(angs, weights=wts)),
-                         "pa_med": float(np.median(angs)), "n_seg": len(angs), "ox": ox, "match_err": err,
+                         "pa_med": float(np.median(angs)), "n_seg": len(angs),
+                         "fl_px": float(np.median(fls)) if fls else np.nan,
+                         "mt_px": float(abs(line_y(dl, ox + w / 2) - line_y(sl, ox + w / 2)) * np.cos(np.radians(sl[2]))), "ox": ox, "match_err": err,
                          "deep_ang": dl[2], "sup_ang": sl[2]})
             if args.debug and len(rows) <= 12:
                 dbg = canvas.copy()

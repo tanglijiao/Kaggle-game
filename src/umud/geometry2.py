@@ -109,10 +109,25 @@ def band_edges(apo_mask: np.ndarray, a: Apo, x: float, which: str) -> float:
     return float(y)
 
 
+def inner_apos(apo_mask: np.ndarray, sup: Apo, deep: Apo, x_lo: float, x_hi: float, n: int = 15):
+    """Shift the centre-line fits to the muscle-side edges of the aponeurosis bands
+    (experts measure between the inner borders)."""
+    xs = np.linspace(x_lo, x_hi, n)
+    ds = np.median([band_edges(apo_mask, sup, x, "lower") - sup.y(x) for x in xs])
+    dd = np.median([deep.y(x) - band_edges(apo_mask, deep, x, "upper") for x in xs])
+    ds, dd = max(0.0, float(ds)), max(0.0, float(dd))
+    s2 = Apo(sup.coef.copy(), sup.x0, sup.x1, sup.mean_y + ds, sup.support)
+    s2.coef[-1] += ds
+    d2 = Apo(deep.coef.copy(), deep.x0, deep.x1, deep.mean_y - dd, deep.support)
+    d2.coef[-1] -= dd
+    return s2, d2
+
+
 def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | None = None, *,
              apo_thr: float = 0.5, source: str = "fasc", estimator: str = "mean", region: str = "all",
              margin: float = 0.1, positions=(0.25, 0.5, 0.75), mt_mode: str = "center",
-             sigma_int: float = 6.0, pa_range=(2.0, 60.0)) -> Result2:
+             sigma_int: float = 6.0, pa_range=(2.0, 60.0), inner: bool = False,
+             pa_offset: float = 0.0, pa_scale: float = 1.0) -> Result2:
     """source: 'fasc' (orientation of the fascicle-probability map), 'img' (grey image weighted by
     fascicle probability), 'img_raw' (grey image only).  region: 'all' | 'deep_half' | 'mid'."""
     h, w = apo_prob.shape
@@ -129,6 +144,10 @@ def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | Non
 
     # ---- MT
     apo_mask = apo_prob > apo_thr
+    if inner:
+        sup, deep = inner_apos(apo_mask, sup, deep, x_lo, x_hi)
+        r.sup, r.deep = sup, deep
+        mt_mode = "center"  # already on the inner borders
     mts = []
     for t in positions:
         x = x_lo + t * (x_hi - x_lo)
@@ -174,6 +193,17 @@ def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | Non
     d = np.array([np.cos(np.radians(ang)), np.sin(np.radians(ang))])
     if d[0] < 0:
         d = -d
+    if pa_offset or pa_scale != 1.0:
+        # rotate the fascicle direction about the deep-aponeurosis direction (mid-span) so that
+        # PA_new = pa_scale * PA + pa_offset
+        xm = 0.5 * (x_lo + x_hi)
+        a_deep = np.degrees(np.arctan(deep.slope(xm)))
+        rel = ang - a_deep                      # signed fascicle angle relative to the deep apo
+        sgn = 1.0 if rel >= 0 else -1.0
+        new = a_deep + sgn * (abs(rel) * pa_scale + pa_offset)
+        d = np.array([np.cos(np.radians(new)), np.sin(np.radians(new))])
+        if d[0] < 0:
+            d = -d
 
     pas, fls = [], []
     lo, hi = -3.0 * w, 4.0 * w

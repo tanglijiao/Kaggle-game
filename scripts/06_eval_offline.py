@@ -19,6 +19,22 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from umud.evalsets import bench_labels, gm_labels, load_maps  # noqa: E402
 from umud.geometry import measure  # noqa: E402
+from umud.geometry2 import measure2  # noqa: E402
+
+IMG_ROOTS = [Path("/home/claude/ext/bench_arch"), Path("/home/claude/ext/benchmark_dataset_architecture_GM_dynamic_v0.1.0"),
+             Path("/home/claude/test_imgs")]
+_IMGS = None
+
+
+def image_path(key: str):
+    global _IMGS
+    if _IMGS is None:
+        _IMGS = {}
+        for r in IMG_ROOTS:
+            for q in r.rglob("*"):
+                if q.suffix.lower() in (".tif", ".tiff", ".png"):
+                    _IMGS[q.stem] = q
+    return _IMGS.get(key)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -26,8 +42,21 @@ ROOT = Path(__file__).resolve().parents[1]
 def _one(args):
     maps, set_name, stem, h, w, params = args
     apo, fasc = load_maps(Path(maps), set_name, stem, h, w)
-    r = measure(apo, fasc, **params)
-    return {"stem": stem, "pa_deg": r.pa_deg, "fl_px": r.fl_px, "mt_px": r.mt_px, "n_fasc": r.n_fasc, "note": r.note}
+    params = dict(params)
+    if params.pop("geom", "v1") == "v2":
+        import cv2
+        ip = image_path(stem.split("__")[-1])
+        gray = cv2.imread(str(ip), cv2.IMREAD_GRAYSCALE) if ip else None
+        if gray is not None and gray.shape != apo.shape:
+            gray = cv2.resize(gray, (apo.shape[1], apo.shape[0]))
+        if gray is None:
+            gray = (fasc * 255).astype("uint8")
+        r = measure2(apo, fasc, gray, **params)
+        n = len(r.lines)
+    else:
+        r = measure(apo, fasc, **params)
+        n = r.n_fasc
+    return {"stem": stem, "pa_deg": r.pa_deg, "fl_px": r.fl_px, "mt_px": r.mt_px, "n_fasc": n, "note": r.note}
 
 
 def run_set(maps: Path, idx: pd.DataFrame, set_name: str, params: dict, workers: int = 2) -> pd.DataFrame:
@@ -44,7 +73,10 @@ def parse_params(items):
     p = {}
     for it in items or []:
         k, v = it.split("=")
-        p[k] = json.loads(v) if v[:1] in "[{" else float(v)
+        try:
+            p[k] = json.loads(v)
+        except json.JSONDecodeError:
+            p[k] = v
     return p
 
 

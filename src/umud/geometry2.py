@@ -147,18 +147,63 @@ def inner_apos(apo_mask: np.ndarray, sup: Apo, deep: Apo, x_lo: float, x_hi: flo
     return s2, d2
 
 
+def pick_pair_robust(apo_prob, fasc_prob, thr, deg):
+    """Like pick_sup_deep, but (1) lowers the threshold when fewer than two aponeuroses are found,
+    (2) drops short fragments when there are 3+ candidates, (3) prefers the top-most pair that actually
+    contains fascicles (at least half of the best pair's mean fascicle probability)."""
+    h, w = apo_prob.shape
+    apos = []
+    for t in (thr, 0.3, 0.15):
+        apos = find_aponeuroses(apo_prob, t, deg=deg)
+        if len(apos) >= 2:
+            break
+    if len(apos) < 2:
+        return (apos[0] if apos else None), None, apos
+    if len(apos) >= 3:
+        mx = max(a.x1 - a.x0 for a in apos)
+        if apos[0].x1 - apos[0].x0 < 0.7 * mx:   # short fragment above the muscle (skin / fascia)
+            apos = apos[1:]
+    pairs = []
+    for i in range(len(apos) - 1):
+        a = apos[i]
+        for b in apos[i + 1:]:
+            x0, x1 = max(a.x0, b.x0), min(a.x1, b.x1)
+            if x1 - x0 < 0.1 * w:
+                continue
+            xs = np.linspace(x0, x1, 7)
+            if np.median(b.y(xs) - a.y(xs)) <= 0.04 * h:
+                continue
+            xi = np.arange(int(x0), int(x1))
+            ya, yb = a.y(xi), b.y(xi)
+            yy = np.arange(h)[:, None]
+            m = (yy > ya[None, :]) & (yy < yb[None, :])
+            sc = float(fasc_prob[:, int(x0):int(x0) + len(xi)][m].mean()) if m.any() else 0.0
+            pairs.append((a, b, sc))
+            break  # only the next aponeurosis below a
+    if not pairs:
+        return pick_sup_deep(apos, h) + (apos,)
+    best = max(p[2] for p in pairs)
+    for a, b, sc in pairs:
+        if sc >= 0.5 * best:
+            return a, b, apos
+    return pairs[0][0], pairs[0][1], apos
+
+
 def measure2(apo_prob: np.ndarray, fasc_prob: np.ndarray, gray: np.ndarray | None = None, *,
              apo_thr: float = 0.5, source: str = "fasc", estimator: str = "mean", region: str = "all",
              margin: float = 0.1, positions=(0.25, 0.5, 0.75), mt_mode: str = "center",
              sigma_int: float = 6.0, pa_range=(2.0, 60.0), inner: bool = False,
              pa_offset: float = 0.0, pa_scale: float = 1.0, linext: bool = False, apo_deg: int = 2,
-             fl_extra: float = 0.0) -> Result2:
+             fl_extra: float = 0.0, robust_pick: bool = False) -> Result2:
     """source: 'fasc' (orientation of the fascicle-probability map), 'img' (grey image weighted by
     fascicle probability), 'img_raw' (grey image only).  region: 'all' | 'deep_half' | 'mid'."""
     h, w = apo_prob.shape
     r = Result2()
-    apos = find_aponeuroses(apo_prob, apo_thr, deg=apo_deg)
-    sup, deep = pick_sup_deep(apos, h)
+    if robust_pick:
+        sup, deep, apos = pick_pair_robust(apo_prob, fasc_prob, apo_thr, apo_deg)
+    else:
+        apos = find_aponeuroses(apo_prob, apo_thr, deg=apo_deg)
+        sup, deep = pick_sup_deep(apos, h)
     r.sup, r.deep = sup, deep
     if sup is None or deep is None:
         r.note = f"aponeuroses: {len(apos)}"

@@ -84,3 +84,20 @@ Checks
   Rater-vs-others MAE: MT 0.15-0.30 mm, FL 3.8-6.3 mm, PA 1.2-1.7 deg. DLTrack: MT 1.03, FL 3.74, PA 1.45.
 - `benchmark_dataset_architecture_GM_dynamic_v0.1.0`: 168 Telemed GM frames (calf raise), 3 raters, PA deg + FL px.
 - `Young/Old_ANONYMIZED_annotated`: 249 Esaote VL images with red-line drawings only (no numbers) — not used yet.
+
+## 2026-10-14 — Metric fully decoded (9 probes on the v1 base)
+
+Score = ( MAE_PA / 6° + MAE_FL / 12 mm + MAE_MT / 3 mm ) / 3   (exactly linear; per-unit 1/18, 1/36, 1/9)
+
+| | per unit | public label mean | v1 MAE | v1 share of 0.693 |
+|---|---|---|---|---|
+| PA | 1/18 per deg | 16.93 deg | 4.19 deg | 0.233 |
+| FL | 1/36 per mm | 82.26 mm | 11.74 mm | 0.326 |
+| MT | 1/9 per mm | 20.88 mm | 1.20 mm | 0.134 |
+
+Probe scores: FL=0 2.65147, FL=600 14.74839, MT=100 9.35013, MT=200 20.46126.
+
+## v2 geometry (structure tensor + inner borders + PA+2) — public 0.53912
+Offline on the 35-image OSF benchmark: PA 1.89 / FL 3.14 / MT 0.28 MAE (v1 2.66 / 8.54 / 1.35; DLTrack 1.45 / 3.74 / 1.03).
+Test means: PA 14.5 (label 16.9!), FL 82.4 (label 82.3), MT 21.5 (label 20.9). Telemed PA still ~9-11 deg.
+GM calf-raise labels do not match our angle definition (corr 0.86 but much larger range) — not used for tuning.
